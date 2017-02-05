@@ -6,6 +6,8 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.loader.ClasspathLoader;
 import com.mitchellbosecke.pebble.loader.Loader;
 
+import java.io.File;
+
 
 public class PebbleTemplateEngineFactory implements TemplateEngineFactory {
     private final PebbleEngine mEngine;
@@ -17,6 +19,10 @@ public class PebbleTemplateEngineFactory implements TemplateEngineFactory {
 
 
     public PebbleTemplateEngineFactory(String templatePathPrefix) {
+        if (templatePathPrefix.startsWith(File.separator)) {
+            templatePathPrefix = templatePathPrefix.substring(1);
+        }
+
         Loader loader = new ClasspathLoader();
         loader.setPrefix(templatePathPrefix);
         mEngine = new PebbleEngine.Builder().loader(loader).build();
